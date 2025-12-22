@@ -1,0 +1,141 @@
+{
+  "success": true,
+  "filename": "tdr_servicio_medico_2024.pdf",
+  "extraction_method": "digital",
+  "page_count": 12,
+  "fields": {
+    "objeto_contratacion": "Contratación del servicio de atención médica especializada para el Centro de Salud Municipal de Lima Norte",
+    "denominacion_servicio": "Servicio de Atención Médica Especializada en Medicina General y Pediatría",
+    "finalidad_publica": "Garantizar el acceso a servicios de salud de calidad para la población del distrito, especialmente niños y adultos mayores en situación de vulnerabilidad",
+    "alcance": "El servicio comprende la atención médica ambulatoria, diagnóstico, tratamiento y seguimiento de pacientes en las especialidades de medicina general y pediatría, incluyendo campañas de prevención y promoción de la salud",
+    "servicios_requeridos": [
+      "Consulta médica ambulatoria en medicina general",
+      "Consulta médica ambulatoria en pediatría",
+      "Atención de emergencias menores",
+      "Campañas de vacunación y prevención",
+      "Charlas informativas sobre salud preventiva",
+      "Elaboración de informes epidemiológicos mensuales"
+    ],
+    "actividades": [
+      {
+        "nombre": "Atención de consultas médicas",
+        "descripcion": "Atender un mínimo de 30 consultas diarias por especialidad",
+        "frecuencia": "Diaria"
+      },
+      {
+        "nombre": "Campañas de salud",
+        "descripcion": "Organizar 2 campañas mensuales de prevención en zonas alejadas",
+        "frecuencia": "Mensual"
+      },
+      {
+        "nombre": "Capacitación al personal",
+        "descripcion": "Brindar capacitación trimestral al personal de enfermería",
+        "frecuencia": "Trimestral"
+      }
+    ],
+    "entregables": [
+      {
+        "nombre": "Informe mensual de atenciones",
+        "descripcion": "Reporte detallado de consultas realizadas, diagnósticos y tratamientos",
+        "plazo": "Dentro de los primeros 5 días hábiles del mes siguiente"
+      },
+      {
+        "nombre": "Informe epidemiológico",
+        "descripcion": "Análisis de tendencias de enfermedades y recomendaciones preventivas",
+        "plazo": "Dentro de los primeros 10 días hábiles del mes siguiente"
+      },
+      {
+        "nombre": "Informe de campañas de salud",
+        "descripcion": "Documentación de campañas realizadas con evidencia fotográfica y estadísticas de atención",
+        "plazo": "Dentro de los 5 días hábiles posteriores a cada campaña"
+      },
+      {
+        "nombre": "Informe final del servicio",
+        "descripcion": "Resumen ejecutivo de todas las actividades, logros alcanzados y recomendaciones",
+        "plazo": "Al término del contrato"
+      }
+    ],
+    "plazo_ejecucion": "Doce (12) meses calendario, contados desde el día siguiente de la suscripción del contrato",
+    "lugar_prestacion": "Centro de Salud Municipal de Lima Norte, ubicado en Av. Los Próceres 1234, distrito de Los Olivos, provincia y departamento de Lima",
+    "perfil_profesional": {
+      "formacion_academica": "Título profesional de Médico Cirujano, con colegiatura y habilitación vigente",
+      "especializacion": "Especialidad en Medicina Familiar o Pediatría (según corresponda)",
+      "experiencia_general": "Mínimo 5 años de experiencia profesional como médico",
+      "experiencia_especifica": "Mínimo 3 años de experiencia en atención primaria de salud o en establecimientos del primer nivel de atención"
+    },
+    "requisitos_tecnicos_minimos": [
+      "Título profesional universitario de Médico Cirujano",
+      "Constancia de colegiatura y habilitación vigente del Colegio Médico del Perú",
+      "Resolución de SERUMS o constancia de exoneración",
+      "Certificados de capacitación en RCP y primeros auxilios (últimos 2 años)",
+      "No tener antecedentes penales ni judiciales",
+      "No tener sanciones vigentes en el Colegio Médico"
+    ],
+    "equipamiento": {
+      "equipos_medicos": [
+        "Tensiómetro digital calibrado",
+        "Estetoscopio profesional",
+        "Oxímetro de pulso",
+        "Termómetro digital",
+        "Linterna de diagnóstico"
+      ],
+      "indumentaria": [
+        "Mandil o bata blanca",
+        "Credencial de identificación visible"
+      ]
+    },
+    "penalidades": [
+      {
+        "tipo": "Por mora en entrega de informes",
+        "calculo": "0.5% del monto mensual por cada día de atraso",
+        "tope": "Máximo 10% del monto mensual"
+      },
+      {
+        "tipo": "Por inasistencia injustificada",
+        "calculo": "Descuento proporcional al día no laborado más penalidad de 2% del monto mensual"
+      },
+      {
+        "tipo": "Por incumplimiento de meta de atenciones",
+        "calculo": "5% del monto mensual si no se alcanza el 80% de la meta de consultas"
+      }
+    ],
+    "forma_pago": "Pago mensual, dentro de los quince (15) días calendario siguientes a la conformidad del servicio, previa presentación de comprobante de pago electrónico y los entregables correspondientes",
+    "monto_referencial": {
+      "valor": 120000.00,
+      "moneda": "Soles",
+      "incluye_igv": true,
+      "monto_mensual": 10000.00
+    },
+    "coordinacion_supervision": {
+      "area_usuaria": "Gerencia de Desarrollo Social",
+      "supervisor": "Jefe de la Unidad de Salud Municipal",
+      "contacto": "salud@munilimanorte.gob.pe"
+    },
+    "confidencialidad": "El contratista se compromete a mantener estricta confidencialidad sobre la información de los pacientes y datos sensibles a los que tenga acceso durante la prestación del servicio, conforme a la Ley N° 29733, Ley de Protección de Datos Personales",
+    "normativa_aplicable": [
+      "Ley N° 30225, Ley de Contrataciones del Estado y su Reglamento",
+      "Ley N° 26842, Ley General de Salud",
+      "Ley N° 29414, Ley de los Derechos de las Personas Usuarias de los Servicios de Salud",
+      "Norma Técnica de Salud para la Gestión de la Historia Clínica",
+      "Directivas internas de la Municipalidad"
+    ],
+    "otras_condiciones": {
+      "horario": "Lunes a viernes de 8:00 a.m. a 5:00 p.m., y sábados de 8:00 a.m. a 1:00 p.m.",
+      "modalidad": "Presencial en el establecimiento de salud",
+      "uniforme": "Uso obligatorio de mandil blanco e identificación visible",
+      "disponibilidad": "Disponibilidad para participar en campañas de salud fuera de horario regular según programación"
+    },
+    "anexos": [
+      "Anexo 1: Formato de informe mensual de atenciones",
+      "Anexo 2: Formato de informe epidemiológico",
+      "Anexo 3: Lista de verificación de equipamiento",
+      "Anexo 4: Declaración jurada de no tener impedimentos"
+    ]
+  },
+  "metadata": {
+    "processed_at": "2024-11-26T14:30:00.000Z",
+    "saved_path": null,
+    "text_length": 15420
+  }
+}
+

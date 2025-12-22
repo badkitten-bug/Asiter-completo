@@ -1,0 +1,23 @@
+# TDR Extractor - Dependencias
+# Instalar con: pip install -r requirements.txt
+
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+pypdf>=5.1.0
+pytesseract>=0.3.13
+pillow>=11.0.0
+python-multipart>=0.0.17
+pdf2image>=1.17.0
+httpx>=0.28.0
+pydantic>=2.10.0
+pydantic-settings>=2.6.0
+python-dotenv>=1.0.1
+openai>=1.55.0
+
+# PyMuPDF para conversión de PDF a imágenes (DeepSeek OCR)
+PyMuPDF>=1.24.0
+
+# Dev dependencies
+requests>=2.32.0
+tqdm>=4.66.0
+

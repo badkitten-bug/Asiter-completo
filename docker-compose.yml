@@ -1,0 +1,55 @@
+version: "3.8"
+
+# ASITER - Asistente Inteligente de TDR
+# Puertos: Frontend 3002, Backend 8001
+# (Tu proyecto CPV usa: 80, 443, 3001)
+
+services:
+  asiter-frontend:
+    build:
+      context: ./Asiter
+      dockerfile: Dockerfile
+    container_name: asiter-frontend
+    ports:
+      - "3002:3000"
+    environment:
+      - NEXT_PUBLIC_BACKEND_URL=http://161.132.40.223:8001
+      - NEXT_PUBLIC_BETTER_AUTH_URL=http://161.132.40.223:3002
+    depends_on:
+      - asiter-backend
+    restart: unless-stopped
+    networks:
+      - asiter-network
+
+  asiter-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: asiter-backend
+    ports:
+      - "8001:8001"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - DATABASE_URL=sqlite:///./asiter.db
+      - CORS_ORIGINS_STR=http://161.132.40.223:3002,http://localhost:3002
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+      - DEBUG=false
+    volumes:
+      - asiter-chroma-data:/app/chroma_db
+      - asiter-db-data:/app/data
+    restart: unless-stopped
+    networks:
+      - asiter-network
+
+volumes:
+  asiter-chroma-data:
+    name: asiter-chroma-data
+  asiter-db-data:
+    name: asiter-db-data
+  asiter-auth-data:
+    name: asiter-auth-data
+
+networks:
+  asiter-network:
+    name: asiter-network
+    driver: bridge

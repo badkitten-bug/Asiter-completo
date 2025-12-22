@@ -1,0 +1,90 @@
+# ========================================
+# ASITER - .gitignore Global
+# ========================================
+
+# ===== Archivos de Entorno =====
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+
+# ===== Node.js / Frontend =====
+node_modules/
+.next/
+out/
+dist/
+*.tgz
+.cache/
+.eslintcache
+*.tsbuildinfo
+bun.lockb
+
+# ===== Python / Backend =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+eggs/
+*.egg-info/
+*.egg
+.venv/
+venv/
+ENV/
+.pytest_cache/
+
+# ===== Bases de datos locales =====
+*.db
+*.sqlite
+*.sqlite3
+chroma_db/
+*.db-journal
+
+# ===== Docker =====
+# No ignorar Dockerfiles ni docker-compose
+
+# ===== IDEs =====
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.cursor/
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ===== Logs =====
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===== Coverage =====
+coverage/
+*.lcov
+htmlcov/
+.coverage
+.coverage.*
+
+# ===== TDR Extractor - PDFs y Outputs Grandes =====
+tdr-extractor/pdfs/
+tdr-extractor/output/
+tdr-extractor/output_gemini/
+tdr-extractor/uploads/
+tdr-extractor/DeepSeek-OCR/
+
+# ===== Archivos temporales =====
+*.tmp
+*.temp
+*.bak
+
+# ===== Uploads =====
+uploads/
