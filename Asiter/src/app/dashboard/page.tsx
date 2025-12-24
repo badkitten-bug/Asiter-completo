@@ -163,7 +163,7 @@ export default function DashboardPage() {
                   <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                   <p className="text-gray-600 mb-2">No has generado ningún TDR aún</p>
                   <p className="text-sm text-gray-500">
-                    Crea tu primer TDR usando el botón "CREAR TDR" arriba
+                    Crea tu primer TDR usando el botón &quot;CREAR TDR&quot; arriba
                   </p>
                 </div>
               ) : (

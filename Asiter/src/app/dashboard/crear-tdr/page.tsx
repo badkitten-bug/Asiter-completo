@@ -494,7 +494,7 @@ function CrearTdrContent() {
                     </p>
                   )}
                   <p className="text-sm text-gray-600 mt-2">
-                    Frase corta que resuma la contratación (sin "Contratación de..."
+                    Frase corta que resuma la contratación (sin &quot;Contratación de...&quot;
                     si no quieres repetir).
                   </p>
                 </div>
@@ -519,7 +519,7 @@ function CrearTdrContent() {
                     </p>
                   )}
                   <p className="text-sm text-gray-600 mt-2">
-                    Evita frases vacías como "según requerimiento del área usuaria".
+                    Evita frases vacías como &quot;según requerimiento del área usuaria&quot;.
                     Sé concreto y medible.
                   </p>
                   <div className="flex flex-col gap-3 mt-3">
