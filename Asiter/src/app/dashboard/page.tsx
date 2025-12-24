@@ -118,7 +118,7 @@ export default function DashboardPage() {
               <Button
                 size="lg"
                 variant="outline"
-                className={`h-32 w-64 flex flex-col items-center justify-center gap-3 text-lg border-2 ${theme.border} ${theme.text} hover:${theme.primary} hover:text-white`}
+                className="h-32 w-64 flex flex-col items-center justify-center gap-3 text-lg border-2 border-blue-600 text-blue-600 bg-white hover:bg-blue-600 hover:text-white transition-colors"
                 onClick={() => router.push("/dashboard/consultar")}
               >
                 <Search className="w-8 h-8" />
