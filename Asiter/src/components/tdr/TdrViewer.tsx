@@ -40,38 +40,63 @@ export function TdrViewer({ open, onOpenChange, tdrTipo, tdrData }: TdrViewerPro
         loadingButton.setAttribute("disabled", "true");
       }
 
-      // Capturar el contenido como imagen
+      // Capturar el contenido como imagen con mayor calidad
       const canvas = await html2canvas(contentRef.current, {
-        scale: 2,
+        scale: 3, // Mayor resolución para mejor calidad
         useCORS: true,
         logging: false,
         backgroundColor: "#ffffff",
+        windowWidth: 794, // Ancho A4 en px a 96 DPI
       });
 
-      // Crear PDF
-      const imgData = canvas.toDataURL("image/png");
+      // Crear PDF A4
       const pdf = new jsPDF("p", "mm", "a4");
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
+      
+      // Márgenes en mm
+      const marginLeft = 15;
+      const marginTop = 15;
+      const contentWidth = pdfWidth - (marginLeft * 2);
+      
       const imgWidth = canvas.width;
       const imgHeight = canvas.height;
-      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+      const ratio = contentWidth / imgWidth;
       const imgScaledWidth = imgWidth * ratio;
       const imgScaledHeight = imgHeight * ratio;
 
-      // Si el contenido es más alto que una página, dividirlo
-      const pageHeight = imgScaledHeight;
+      // Calcular páginas
+      const pageContentHeight = pdfHeight - (marginTop * 2);
       let heightLeft = imgScaledHeight;
       let position = 0;
+      let pageNum = 0;
 
-      pdf.addImage(imgData, "PNG", 0, position, imgScaledWidth, imgScaledHeight);
-      heightLeft -= pdfHeight;
+      // Primera página
+      pdf.addImage(
+        canvas.toDataURL("image/png"),
+        "PNG",
+        marginLeft,
+        marginTop - position,
+        imgScaledWidth,
+        imgScaledHeight
+      );
+      heightLeft -= pageContentHeight;
+      pageNum++;
 
-      while (heightLeft >= 0) {
-        position = heightLeft - imgScaledHeight;
+      // Páginas adicionales si el contenido es largo
+      while (heightLeft > 0) {
+        position += pageContentHeight;
         pdf.addPage();
-        pdf.addImage(imgData, "PNG", 0, position, imgScaledWidth, imgScaledHeight);
-        heightLeft -= pdfHeight;
+        pdf.addImage(
+          canvas.toDataURL("image/png"),
+          "PNG",
+          marginLeft,
+          marginTop - position,
+          imgScaledWidth,
+          imgScaledHeight
+        );
+        heightLeft -= pageContentHeight;
+        pageNum++;
       }
 
       // Descargar PDF
@@ -94,40 +119,70 @@ export function TdrViewer({ open, onOpenChange, tdrTipo, tdrData }: TdrViewerPro
   const sections = tdrSectionsByType[tdrTipo] || [];
   const tipoLabel = tdrTipoLabels[tdrTipo];
 
+  // Contador de secciones para numeración
+  let sectionNumber = 0;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <FileText className="w-5 h-5" />
-            Visualización de TDR - {tipoLabel}
+            Vista Previa del Documento - {tipoLabel}
           </DialogTitle>
           <DialogDescription>
-            Revisa el contenido del TDR antes de exportarlo o procesarlo.
+            Revisa el contenido del TDR antes de exportarlo como PDF.
           </DialogDescription>
         </DialogHeader>
 
-        <div ref={contentRef} className="p-8 bg-white">
-          {/* Encabezado del TDR */}
-          <div className="mb-8 border-b-2 border-gray-300 pb-4">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        {/* Contenedor del documento con estilo de página */}
+        <div 
+          ref={contentRef} 
+          className="bg-white mx-auto"
+          style={{
+            width: "210mm",
+            minHeight: "297mm",
+            padding: "25mm 20mm",
+            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+            fontFamily: "'Times New Roman', Times, serif",
+          }}
+        >
+          {/* Encabezado institucional */}
+          <div className="text-center mb-8 pb-4 border-b-2 border-gray-400">
+            <p className="text-xs text-gray-500 mb-2 tracking-widest uppercase">
+              Términos de Referencia
+            </p>
+            <h1 
+              className="text-xl font-bold text-gray-900 mb-3 leading-tight"
+              style={{ fontFamily: "'Arial', sans-serif" }}
+            >
               {tdrData.tituloBreve || 
                tdrData.denominacionContratacion || 
-               "Términos de Referencia"}
+               "TÉRMINOS DE REFERENCIA"}
             </h1>
-            <p className="text-sm text-gray-600">
-              Tipo: <span className="font-semibold">{tipoLabel}</span>
-            </p>
-            {tdrData.fraseInicial && (
-              <p className="text-base text-gray-700 mt-2 italic">
-                {tdrData.fraseInicial}
-              </p>
-            )}
+            <div className="flex justify-center items-center gap-4 text-sm text-gray-600">
+              <span className="px-3 py-1 bg-blue-50 border border-blue-200 rounded">
+                Tipo: <strong>{tipoLabel}</strong>
+              </span>
+              <span className="px-3 py-1 bg-gray-50 border border-gray-200 rounded">
+                Fecha: {new Date().toLocaleDateString("es-PE", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </span>
+            </div>
           </div>
+
+          {/* Frase inicial si existe */}
+          {tdrData.fraseInicial && (
+            <div className="mb-6 p-4 bg-gray-50 border-l-4 border-blue-500 italic text-gray-700">
+              {tdrData.fraseInicial}
+            </div>
+          )}
 
           {/* Contenido por secciones */}
           {sections.map((section) => {
-            // Obtener los campos de esta sección que tienen datos
             const sectionFields = section.fields
               .map((fieldKey) => {
                 const fieldValue = tdrData[fieldKey as keyof TdrData];
@@ -138,23 +193,38 @@ export function TdrViewer({ open, onOpenChange, tdrTipo, tdrData }: TdrViewerPro
               })
               .filter((f): f is { key: string; value: any } => f !== null);
 
-            // Si no hay campos con datos en esta sección, no mostrarla
             if (sectionFields.length === 0) {
               return null;
             }
 
+            sectionNumber++;
+
             return (
-              <div key={section.id} className="mb-8">
-                <h2 className="text-xl font-semibold text-gray-800 mb-4 border-l-4 border-blue-600 pl-3">
-                  {section.title}
-                </h2>
-                {section.description && (
-                  <p className="text-sm text-gray-600 mb-4 italic">{section.description}</p>
-                )}
+              <div key={section.id} className="mb-6">
+                {/* Título de sección numerado */}
+                <div className="flex items-start gap-3 mb-4">
+                  <span 
+                    className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold"
+                    style={{ fontFamily: "'Arial', sans-serif" }}
+                  >
+                    {sectionNumber}
+                  </span>
+                  <div>
+                    <h2 
+                      className="text-lg font-bold text-gray-800 uppercase tracking-wide"
+                      style={{ fontFamily: "'Arial', sans-serif" }}
+                    >
+                      {section.title}
+                    </h2>
+                    {section.description && (
+                      <p className="text-sm text-gray-500 mt-1">{section.description}</p>
+                    )}
+                  </div>
+                </div>
                 
-                <div className="space-y-4">
-                  {sectionFields.map(({ key, value }) => {
-                    // Formatear el nombre del campo (convertir camelCase a título)
+                {/* Campos de la sección */}
+                <div className="ml-11 space-y-4">
+                  {sectionFields.map(({ key, value }, fieldIdx) => {
                     const fieldLabel = key
                       .replace(/([A-Z])/g, " $1")
                       .replace(/^./, (str) => str.toUpperCase())
@@ -162,27 +232,33 @@ export function TdrViewer({ open, onOpenChange, tdrTipo, tdrData }: TdrViewerPro
 
                     return (
                       <div key={key} className="mb-4">
-                        <h3 className="text-base font-semibold text-gray-700 mb-2">
-                          {fieldLabel}
+                        <h3 
+                          className="text-sm font-bold text-gray-700 mb-2 uppercase"
+                          style={{ fontFamily: "'Arial', sans-serif" }}
+                        >
+                          {sectionNumber}.{fieldIdx + 1} {fieldLabel}
                         </h3>
                         {typeof value === "string" ? (
-                          <div className="text-gray-700 whitespace-pre-wrap leading-relaxed pl-4 border-l-2 border-gray-200">
+                          <div 
+                            className="text-gray-800 whitespace-pre-wrap leading-relaxed text-justify pl-4 border-l-2 border-gray-300"
+                            style={{ textAlign: "justify" }}
+                          >
                             {value}
                           </div>
                         ) : Array.isArray(value) ? (
-                          <ul className="list-disc list-inside space-y-2 text-gray-700 pl-4 border-l-2 border-gray-200">
+                          <ul className="list-disc space-y-1 text-gray-800 pl-8">
                             {value.map((item, idx) => (
-                              <li key={idx}>{String(item)}</li>
+                              <li key={idx} className="leading-relaxed">{String(item)}</li>
                             ))}
                           </ul>
                         ) : typeof value === "object" && value !== null ? (
-                          <div className="text-gray-700 pl-4 border-l-2 border-gray-200">
-                            <pre className="whitespace-pre-wrap font-sans">
+                          <div className="text-gray-800 pl-4 border-l-2 border-gray-300">
+                            <pre className="whitespace-pre-wrap font-sans text-sm">
                               {JSON.stringify(value, null, 2)}
                             </pre>
                           </div>
                         ) : (
-                          <div className="text-gray-700 pl-4 border-l-2 border-gray-200">
+                          <div className="text-gray-800 pl-4 border-l-2 border-gray-300">
                             {String(value)}
                           </div>
                         )}
@@ -201,7 +277,6 @@ export function TdrViewer({ open, onOpenChange, tdrTipo, tdrData }: TdrViewerPro
             );
             const additionalFields = Object.entries(tdrData).filter(
               ([key, value]) => {
-                // Excluir campos especiales o que ya están en secciones
                 if (
                   key === "tipo" ||
                   key === "tituloBreve" ||
@@ -220,13 +295,26 @@ export function TdrViewer({ open, onOpenChange, tdrTipo, tdrData }: TdrViewerPro
 
             if (additionalFields.length === 0) return null;
 
+            sectionNumber++;
+
             return (
-              <div className="mt-8 pt-6 border-t-2 border-gray-300">
-                <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                  Información Adicional
-                </h2>
-                <div className="space-y-4">
-                  {additionalFields.map(([key, value]) => {
+              <div className="mb-6 pt-4 border-t border-gray-200">
+                <div className="flex items-start gap-3 mb-4">
+                  <span 
+                    className="flex-shrink-0 w-8 h-8 bg-gray-600 text-white rounded-full flex items-center justify-center text-sm font-bold"
+                    style={{ fontFamily: "'Arial', sans-serif" }}
+                  >
+                    {sectionNumber}
+                  </span>
+                  <h2 
+                    className="text-lg font-bold text-gray-800 uppercase tracking-wide"
+                    style={{ fontFamily: "'Arial', sans-serif" }}
+                  >
+                    Información Adicional
+                  </h2>
+                </div>
+                <div className="ml-11 space-y-4">
+                  {additionalFields.map(([key, value], fieldIdx) => {
                     const fieldLabel = key
                       .replace(/([A-Z])/g, " $1")
                       .replace(/^./, (str) => str.toUpperCase())
@@ -234,10 +322,16 @@ export function TdrViewer({ open, onOpenChange, tdrTipo, tdrData }: TdrViewerPro
 
                     return (
                       <div key={key} className="mb-4">
-                        <h3 className="text-base font-semibold text-gray-700 mb-2">
-                          {fieldLabel}
+                        <h3 
+                          className="text-sm font-bold text-gray-700 mb-2 uppercase"
+                          style={{ fontFamily: "'Arial', sans-serif" }}
+                        >
+                          {sectionNumber}.{fieldIdx + 1} {fieldLabel}
                         </h3>
-                        <div className="text-gray-700 whitespace-pre-wrap pl-4 border-l-2 border-gray-200">
+                        <div 
+                          className="text-gray-800 whitespace-pre-wrap pl-4 border-l-2 border-gray-300"
+                          style={{ textAlign: "justify" }}
+                        >
                           {typeof value === "string"
                             ? value
                             : JSON.stringify(value, null, 2)}
@@ -251,16 +345,24 @@ export function TdrViewer({ open, onOpenChange, tdrTipo, tdrData }: TdrViewerPro
           })()}
 
           {/* Pie de página */}
-          <div className="mt-8 pt-4 border-t border-gray-300 text-xs text-gray-500 text-center">
-            Generado el {new Date().toLocaleDateString("es-ES", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
+          <div className="mt-12 pt-6 border-t-2 border-gray-400">
+            <div className="flex justify-between items-center text-xs text-gray-500">
+              <span>TDR - {tipoLabel}</span>
+              <span>
+                Documento generado el {new Date().toLocaleDateString("es-PE", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </span>
+            </div>
+            <p className="text-center text-xs text-gray-400 mt-4 italic">
+              Este documento fue generado automáticamente por el Sistema ASITER
+            </p>
           </div>
         </div>
 
-        <DialogFooter className="flex gap-2">
+        <DialogFooter className="flex gap-2 mt-4">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             <X className="w-4 h-4 mr-2" />
             Cerrar

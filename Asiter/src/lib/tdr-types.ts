@@ -41,7 +41,7 @@ const camposComunes = {
     key: "objetivosEspecificos",
     label: "Objetivos Específicos",
     type: "textarea" as const,
-    required: true,
+    required: false, // Reducido: objetivo general ya cubre esto
   },
   descripcion: {
     key: "descripcion",
@@ -60,7 +60,7 @@ const camposComunes = {
     key: "actividadPoi",
     label: "Actividad del POI",
     type: "text" as const,
-    required: true,
+    required: false, // Reducido: no siempre se conoce
   },
   denominacionContratacion: {
     key: "denominacionContratacion",
@@ -84,7 +84,7 @@ const camposComunes = {
     key: "medida",
     label: "Medida",
     type: "text" as const,
-    required: true,
+    required: false, // Reducido: unidad ya cubre esto
   },
   objetivoContratacion: {
     key: "objetivoContratacion",
@@ -96,7 +96,7 @@ const camposComunes = {
     key: "objetivosContratacion",
     label: "Objetivos de la Contratación",
     type: "textarea" as const,
-    required: true,
+    required: false, // Reducido: duplica objetivoContratacion
   },
   otrasPenalidades: {
     key: "otrasPenalidades",
@@ -114,7 +114,7 @@ const camposComunes = {
     key: "requisitosProveedor",
     label: "Requisitos del Proveedor",
     type: "textarea" as const,
-    required: true,
+    required: false, // Reducido: perfilProveedor ya cubre esto
   },
   acreditacion: {
     key: "acreditacion",
@@ -612,7 +612,7 @@ export const tdrFieldsByType: Record<TdrTipo, TdrField[]> = {
       key: "entregables",
       label: "Entregables",
       type: "textarea",
-      required: true,
+      required: false, // Reducido: ya existe 'entregable'
     },
     {
       key: "propiedadIntelectual",
@@ -667,7 +667,7 @@ export const tdrFieldsByType: Record<TdrTipo, TdrField[]> = {
       key: "lugarPlazoEjecucion",
       label: "Lugar y Plazo de Ejecución",
       type: "textarea",
-      required: true,
+      required: false, // Reducido: ya existen 'lugar' y 'plazo' por separado
     },
     camposComunes.objetivoGeneral,
     {
@@ -682,13 +682,13 @@ export const tdrFieldsByType: Record<TdrTipo, TdrField[]> = {
       key: "clausulaAntisoborno",
       label: "Cláusula Antisoborno",
       type: "textarea",
-      required: true,
+      required: false, // Reducido: ya existe 'anticorrupcionAntisoborno'
     },
     {
       key: "terminosReferencia",
       label: "Términos de Referencia",
       type: "textarea",
-      required: true,
+      required: false, // Reducido: el documento entero es el TDR
     },
     {
       key: "formacionAcademica",
@@ -719,7 +719,7 @@ export const tdrFieldsByType: Record<TdrTipo, TdrField[]> = {
       key: "clausulaAnticorrupcionAntisoborno",
       label: "Cláusula Anticorrupción y Antisoborno",
       type: "textarea",
-      required: true,
+      required: false, // Reducido: duplica 'anticorrupcionAntisoborno'
     },
     {
       key: "areaUsuariaRequiereServicio",
@@ -769,7 +769,7 @@ export const tdrFieldsByType: Record<TdrTipo, TdrField[]> = {
       key: "formaCondicionesPago",
       label: "Forma y Condiciones de Pago",
       type: "textarea",
-      required: true,
+      required: false, // Reducido: duplica 'formaPago'
     },
     {
       key: "actividades",
@@ -781,7 +781,7 @@ export const tdrFieldsByType: Record<TdrTipo, TdrField[]> = {
       key: "requisitosContratacion",
       label: "Requisitos para la Contratación",
       type: "textarea",
-      required: true,
+      required: false, // Reducido: duplica 'requisitosProveedor'
     },
   ],
 };

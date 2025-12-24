@@ -20,7 +20,7 @@ const tipoOptions: Array<{ value: TdrTipo; label: string; icon: typeof Package }
 
 export function TdrFilter({ selectedTipo, onSelectTipo }: TdrFilterProps) {
   return (
-    <div className="bg-white rounded-lg shadow-sm p-4 border-2 border-green-500">
+    <div className="bg-white rounded-lg shadow-sm p-4 border-2 border-green-500 relative">
       <div className="mb-3">
         <p className="text-sm font-semibold text-gray-700 mb-1">
           Filtro para seleccionar
@@ -35,8 +35,10 @@ export function TdrFilter({ selectedTipo, onSelectTipo }: TdrFilterProps) {
               key={option.value}
               variant={isSelected ? "default" : "outline"}
               className={cn(
-                "w-full justify-start",
-                isSelected && "bg-blue-600 hover:bg-blue-700"
+                "w-full justify-start transition-all duration-200",
+                isSelected 
+                  ? "bg-blue-600 hover:bg-blue-700 text-white shadow-md" 
+                  : "bg-white hover:bg-gray-100 hover:border-gray-400 hover:shadow-sm border-gray-300"
               )}
               onClick={() =>
                 onSelectTipo(isSelected ? null : option.value)
