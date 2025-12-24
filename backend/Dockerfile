@@ -2,22 +2,21 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Deshabilitar optimizaciones de NumPy para CPUs sin AVX2/SSE
-ENV NPY_DISABLE_CPU_FEATURES="AVX2 AVX512F AVX512CD AVX512_SKX"
-ENV OPENBLAS_CORETYPE=ARMV8
-
-# Instalar dependencias del sistema
+# Instalar dependencias del sistema para compilar NumPy
 RUN apt-get update && apt-get install -y \
     build-essential \
+    gfortran \
+    libopenblas-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Copiar requirements primero (para cache de Docker)
 COPY requirements.txt .
 
-# Instalar NumPy 1.x PRIMERO (antes de chromadb) para CPUs sin AVX2
-RUN pip install --no-cache-dir "numpy<2.0.0"
+# Compilar NumPy desde código fuente para esta CPU específica
+# Esto evita el error de optimizaciones X86_V2
+RUN pip install --no-cache-dir --no-binary numpy "numpy<2.0.0"
 
-# Instalar dependencias Python
+# Instalar dependencias Python (chromadb no sobreescribirá numpy)
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copiar código
