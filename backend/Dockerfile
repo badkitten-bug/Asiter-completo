@@ -7,17 +7,19 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     gfortran \
     libopenblas-dev \
+    pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
 # Copiar requirements primero (para cache de Docker)
 COPY requirements.txt .
 
-# Compilar NumPy desde código fuente para esta CPU específica
-# Esto evita el error de optimizaciones X86_V2
-RUN pip install --no-cache-dir --no-binary numpy "numpy<2.0.0"
-
-# Instalar dependencias Python (chromadb no sobreescribirá numpy)
+# Instalar dependencias Python
 RUN pip install --no-cache-dir -r requirements.txt
+
+# FORZAR reinstalación de NumPy desde código fuente
+# Esto sobrescribe el numpy precompilado que instaló chromadb
+RUN pip uninstall -y numpy && \
+    pip install --no-cache-dir --no-binary numpy "numpy<2.0.0"
 
 # Copiar código
 COPY . .
