@@ -10,6 +10,9 @@ RUN apt-get update && apt-get install -y \
 # Copiar requirements primero (para cache de Docker)
 COPY requirements.txt .
 
+# Instalar NumPy 1.x PRIMERO (antes de chromadb) para CPUs sin AVX2
+RUN pip install --no-cache-dir "numpy<2.0.0"
+
 # Instalar dependencias Python
 RUN pip install --no-cache-dir -r requirements.txt
 
