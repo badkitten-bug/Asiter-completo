@@ -1,31 +1,32 @@
 # Backend TDR Generator - Dependencias
-# Instalar con: pip install -r requirements.txt
+# VERSIONES BLOQUEADAS para compatibilidad con CPU sin AVX2
 
 # Web Framework
-fastapi>=0.115.0
-uvicorn[standard]>=0.32.0
-python-multipart>=0.0.17
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
+python-multipart==0.0.17
 
-# Base de datos vectorial
-chromadb>=0.5.0
+# NumPy DEBE ir primero - versión 1.x compatible con CPUs antiguas
+numpy==1.26.4
+
+# Base de datos vectorial - versión específica que funciona con numpy 1.x
+chromadb==0.4.24
 
 # Embeddings y LLM
-numpy<2.0.0  # Versión compatible con CPUs sin AVX2/X86_V2
-google-genai>=1.0.0
-sentence-transformers>=3.0.0
+google-genai==1.0.0
+sentence-transformers==2.7.0
 
 # Utilidades
-pydantic>=2.10.0
-pydantic-settings>=2.6.0
-python-dotenv>=1.0.1
-httpx>=0.28.0
+pydantic==2.10.0
+pydantic-settings==2.6.0
+python-dotenv==1.0.1
+httpx==0.28.0
 
 # CORS y JWT
-python-jose>=3.3.0
-PyJWT>=2.8.0
+python-jose==3.3.0
+PyJWT==2.8.0
 
 # PostgreSQL
-sqlalchemy>=2.0.0
-psycopg2-binary>=2.9.0
-alembic>=1.13.0
-
+sqlalchemy==2.0.0
+psycopg2-binary==2.9.0
+alembic==1.13.0
